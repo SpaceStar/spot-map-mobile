@@ -1,17 +1,18 @@
 package ru.spacestar.core.utils.storage
 
-import ru.spacestar.core.utils.storage.KVStorage
+import platform.Foundation.NSUserDefaults
 
 class KVStorageImpl : KVStorage {
+    private val userDefaults = NSUserDefaults.standardUserDefaults()
+
     override fun put(key: String, value: String) {
-        TODO("Not yet implemented")
+        userDefaults.setObject(value, forKey = key)
+        userDefaults.synchronize()
     }
 
-    override fun get(key: String): String? {
-        TODO("Not yet implemented")
-    }
+    override fun get(key: String) = userDefaults.stringForKey(key)
 
     override fun remove(key: String) {
-        TODO("Not yet implemented")
+        userDefaults.removeObjectForKey(key)
     }
 }
