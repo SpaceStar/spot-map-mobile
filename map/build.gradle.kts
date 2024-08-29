@@ -30,6 +30,8 @@ kotlin {
     sourceSets {
         androidMain.dependencies {
             implementation(compose.preview)
+            implementation(libs.mapbox.core)
+            implementation(libs.mapbox.compose)
         }
         commonMain.dependencies {
             implementation(projects.coreFeatureApi)
@@ -57,12 +59,22 @@ android {
     defaultConfig {
         minSdk = libs.versions.android.minSdk.get().toInt()
     }
+    buildTypes {
+        val mapboxAccessToken: String by project
+        debug {
+            buildConfigField("String", "MapboxAccessToken", "\"$mapboxAccessToken\"")
+        }
+        release {
+            buildConfigField("String", "MapboxAccessToken", "\"$mapboxAccessToken\"")
+        }
+    }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
     dependencies {
         debugImplementation(compose.uiTooling)

@@ -1,12 +1,11 @@
 package ru.spacestar.map.ui.spotMap.view
 
-import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import ru.spacestar.core_ui.view.BaseAppBarScreen
 import ru.spacestar.map.ui.spotMap.business.SpotMapViewModel
@@ -22,11 +21,10 @@ fun SpotMap(
     BaseAppBarScreen(
         navController = navController
     ) { paddingValues ->
-        Column(
+        Box(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
-                .padding(16.dp)
         ) {
             YandexMap(
                 modifier = Modifier,
