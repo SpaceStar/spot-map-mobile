@@ -8,6 +8,9 @@ plugins {
     alias(libs.plugins.compose.compiler)
 }
 
+val mapboxAccessToken: String by project
+val mapboxStyleUrl = "mapbox://styles/yutkachev/cm0fetjsp000201qy8u933dj0"
+
 kotlin {
     androidTarget {
         @OptIn(ExperimentalKotlinGradlePluginApi::class)
@@ -60,12 +63,13 @@ android {
         minSdk = libs.versions.android.minSdk.get().toInt()
     }
     buildTypes {
-        val mapboxAccessToken: String by project
         debug {
-            buildConfigField("String", "MapboxAccessToken", "\"$mapboxAccessToken\"")
+            buildConfigField("String", "mapboxAccessToken", "\"$mapboxAccessToken\"")
+            buildConfigField("String", "mapboxStyleUrl", "\"$mapboxStyleUrl\"")
         }
         release {
-            buildConfigField("String", "MapboxAccessToken", "\"$mapboxAccessToken\"")
+            buildConfigField("String", "mapboxAccessToken", "\"$mapboxAccessToken\"")
+            buildConfigField("String", "mapboxStyleUrl", "\"$mapboxStyleUrl\"")
         }
     }
     compileOptions {
