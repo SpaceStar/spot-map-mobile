@@ -34,7 +34,7 @@ kotlin {
 
 android {
     namespace = "ru.spacestar.core_feature_api"
-    compileSdk = libs.versions.android.compileSdk.get().toInt()
+    compileSdk = libs.versions.android.targetSdk.get().toInt()
 
     defaultConfig {
         minSdk = libs.versions.android.minSdk.get().toInt()
