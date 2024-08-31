@@ -34,6 +34,11 @@ dependencyResolutionManagement {
             credentials.password = providers.gradleProperty("MAPBOX_DOWNLOADS_TOKEN").get()
             authentication.create<BasicAuthentication>("basic")
         }
+        maven {
+            url = uri("https://maven.pkg.github.com/crossoid/Kotlin-Native-BigDecimal")
+            credentials.username = "SpaceStar"
+            credentials.password = providers.gradleProperty("GITHUB_PACKAGES_TOKEN").get()
+        }
     }
 }
 

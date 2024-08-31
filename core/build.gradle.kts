@@ -6,6 +6,12 @@ plugins {
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.jetbrainsCompose)
     alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.build.config)
+}
+
+buildConfig {
+    val baseUrl: String by project
+    buildConfigField("BASE_URL", baseUrl)
 }
 
 kotlin {
@@ -41,6 +47,11 @@ kotlin {
             implementation(libs.androidx.lifecycle.viewmodel)
             implementation(libs.androidx.lifecycle.runtime.compose)
             implementation(libs.koin.core)
+            api(libs.bigdecimal)
+            api(libs.ktor.core)
+            api(libs.ktor.resources)
+            implementation(libs.bundles.ktor.plugins)
+            implementation(libs.logging.napier)
         }
     }
 }

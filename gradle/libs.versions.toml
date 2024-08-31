@@ -17,6 +17,10 @@ koin = "3.5.6"
 compose-navigation = "2.8.0-alpha09"
 orbit = "9.0.0"
 mapbox = "11.6.0"
+ktor="2.3.12"
+bigdecimal="1.0"
+build-config="5.4.0"
+napier="2.7.1"
 
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
@@ -39,6 +43,26 @@ compose-navigation = { module = "org.jetbrains.androidx.navigation:navigation-co
 orbit-compose = { module = "org.orbit-mvi:orbit-compose", version.ref = "orbit" }
 mapbox-core = { module = "com.mapbox.maps:android", version.ref = "mapbox" }
 mapbox-compose = { module = "com.mapbox.extension:maps-compose", version.ref = "mapbox" }
+bigdecimal = { module = "com.crossoid:kotlin-native-bigdecimal", version.ref = "bigdecimal" }
+ktor-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
+ktor-cio = { module = "io.ktor:ktor-client-cio", version.ref = "ktor" }
+ktor-content-negotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor" }
+ktor-serialization-json = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }
+ktor-resources = { module = "io.ktor:ktor-client-resources", version.ref = "ktor" }
+ktor-auth = { module = "io.ktor:ktor-client-auth", version.ref = "ktor" }
+ktor-logging = { module = "io.ktor:ktor-client-logging", version.ref = "ktor" }
+logging-napier = { module = "io.github.aakira:napier", version.ref = "napier" }
+
+[bundles]
+ktor-plugins = [
+    "ktor-core",
+    "ktor-cio",
+    "ktor-content-negotiation",
+    "ktor-serialization-json",
+    "ktor-resources",
+    "ktor-auth",
+    "ktor-logging",
+]
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
@@ -46,3 +70,5 @@ androidLibrary = { id = "com.android.library", version.ref = "agp" }
 jetbrainsCompose = { id = "org.jetbrains.compose", version.ref = "compose-plugin" }
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
+kotlinSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+build-config = { id = "com.github.gmazzo.buildconfig", version.ref = "build-config" }
