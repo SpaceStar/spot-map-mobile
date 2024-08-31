@@ -1,3 +1,3 @@
 package ru.spacestar.map.ui.views.map
 
-expect val YandexMap: Map
+expect val MapBox: Map

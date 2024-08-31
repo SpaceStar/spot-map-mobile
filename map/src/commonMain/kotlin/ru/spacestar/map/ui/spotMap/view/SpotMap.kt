@@ -9,7 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
 import ru.spacestar.core_ui.view.BaseAppBarScreen
 import ru.spacestar.map.ui.spotMap.business.SpotMapViewModel
-import ru.spacestar.map.ui.views.map.YandexMap
+import ru.spacestar.map.ui.views.map.MapBox
 
 @Composable
 fun SpotMap(
@@ -26,7 +26,7 @@ fun SpotMap(
                 .fillMaxSize()
                 .padding(paddingValues)
         ) {
-            YandexMap(
+            MapBox(
                 modifier = Modifier,
                 spots = emptyList()
             )

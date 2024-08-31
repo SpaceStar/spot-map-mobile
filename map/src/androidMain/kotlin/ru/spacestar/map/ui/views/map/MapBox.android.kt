@@ -44,7 +44,7 @@ import org.jetbrains.compose.resources.imageResource
 import ru.spacestar.map.BuildConfig
 import ru.spacestar.map.R
 
-actual val YandexMap: Map
+actual val MapBox: Map
     get() = Map {
             modifier: Modifier,
             spots: List<Spot> ->
