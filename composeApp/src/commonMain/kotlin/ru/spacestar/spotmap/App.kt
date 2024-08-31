@@ -38,6 +38,7 @@ fun App() {
     val mainModule = mainModule()
 
     LaunchedEffect(true) {
+        // TODO: exception koin already started (on rotate maybe)
         startKoin {
             modules(mainModule)
         }

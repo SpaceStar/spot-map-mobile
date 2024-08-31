@@ -6,4 +6,5 @@ class ApplicationPreferences(
     storage: KVStorage
 ) : BasePreferences(storage) {
     val token = stringField("token")
+    val selectedSpotType = intField("selectedSpotType", null)
 }

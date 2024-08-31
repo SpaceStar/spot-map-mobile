@@ -7,6 +7,7 @@ import org.koin.core.component.KoinComponent
 import org.koin.core.component.get
 import org.koin.core.component.inject
 import ru.spacestar.map.ui.spotMap.view.SpotMap as SpotMapInternal
+import ru.spacestar.map.ui.spotType.view.SpotTypes as SpotTypesInternal
 
 internal class MapComponent : KoinComponent {
     private val navController: NavController by inject()
@@ -14,6 +15,14 @@ internal class MapComponent : KoinComponent {
     @Composable
     fun SpotMap() {
         SpotMapInternal(
+            navController = navController,
+            viewModel = viewModel { get() }
+        )
+    }
+
+    @Composable
+    fun SpotTypes() {
+        SpotTypesInternal(
             navController = navController,
             viewModel = viewModel { get() }
         )
