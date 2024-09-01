@@ -5,6 +5,10 @@ import io.github.aakira.napier.DebugAntilog
 import io.github.aakira.napier.Napier
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.cio.CIO
+import io.ktor.client.network.sockets.ConnectTimeoutException
+import io.ktor.client.plugins.HttpRequestRetry
+import io.ktor.client.plugins.HttpRequestTimeoutException
+import io.ktor.client.plugins.HttpTimeout
 import io.ktor.client.plugins.auth.Auth
 import io.ktor.client.plugins.auth.providers.BearerTokens
 import io.ktor.client.plugins.auth.providers.bearer
@@ -42,17 +46,22 @@ val coreModule = module {
     single {
         HttpClient(CIO) {
             install(HttpCache)
+            install(HttpTimeout) {
+                connectTimeoutMillis = 1000
+                requestTimeoutMillis = 5000
+            }
+            // TODO: think about
+            install(HttpRequestRetry) {
+                maxRetries = 5
+                retryOnExceptionIf { _, e ->
+                    e is ConnectTimeoutException
+                            || e is HttpRequestTimeoutException
+                }
+                exponentialDelay()
+            }
             defaultRequest {
                 url(BuildConfig.BASE_URL)
             }
-            // TODO: think about
-//            install(HttpRequestRetry) {
-//                maxRetries = 5
-//                retryOnExceptionIf { _, e ->
-//                    e is NetworkError
-//                }
-//                exponentialDelay()
-//            }
             install(ContentNegotiation) {
                 json(get())
             }
