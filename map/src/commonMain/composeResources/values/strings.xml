@@ -1,3 +1,4 @@
 <resources>
-    <string name="select_spot_type">Select type of spots</string>
+    <string name="select_category_title">Select category</string>
+    <string name="select_category_button">Categories</string>
 </resources>

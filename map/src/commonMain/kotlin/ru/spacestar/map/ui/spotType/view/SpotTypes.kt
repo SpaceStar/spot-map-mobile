@@ -20,7 +20,7 @@ import ru.spacestar.core_ui.viewmodel.BaseSideEffect
 import ru.spacestar.map.ui.spotType.business.SpotTypesViewModel
 import ru.spacestar.map.ui.views.item.SpotTypeItem
 import spotmap.map.generated.resources.Res
-import spotmap.map.generated.resources.select_spot_type
+import spotmap.map.generated.resources.select_category_button
 
 @Composable
 internal fun SpotTypes(
@@ -40,7 +40,7 @@ internal fun SpotTypes(
 
     BaseAppBarScreen(
         navController = navController,
-        title = stringResource(Res.string.select_spot_type),
+        title = stringResource(Res.string.select_category_button),
         isBackEnabled = isBackEnabled
     ) { paddingValues ->
         // TODO: read about LazyColumn and it's optimizations

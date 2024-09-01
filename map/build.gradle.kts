@@ -36,6 +36,8 @@ kotlin {
             implementation(compose.preview)
             implementation(libs.mapbox.core)
             implementation(libs.mapbox.compose)
+            implementation(libs.compose.permissions)
+            implementation(libs.play.services.location)
         }
         commonMain.dependencies {
             implementation(projects.coreFeatureApi)

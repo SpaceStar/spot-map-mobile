@@ -4,6 +4,7 @@ import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.plugins.resources.get
 import ru.spacestar.map.api.SpotResource
+import ru.spacestar.map.model.api.Spot
 import ru.spacestar.map.model.api.SpotType
 
 internal class SpotRepository(
@@ -11,5 +12,22 @@ internal class SpotRepository(
 ) {
     suspend fun getSpotTypes(): List<SpotType> {
         return client.get(SpotResource.Types()).body()
+    }
+
+    suspend fun getSpotMap(
+        spotType: Int,
+        lat1: String,
+        lon1: String,
+        lat2: String,
+        lon2: String
+    ): List<Spot> {
+        val resource = SpotResource.Map(
+            spotType = spotType,
+            lat1 = lat1,
+            lon1 = lon1,
+            lat2 = lat2,
+            lon2 = lon2
+        )
+        return client.get(resource).body()
     }
 }

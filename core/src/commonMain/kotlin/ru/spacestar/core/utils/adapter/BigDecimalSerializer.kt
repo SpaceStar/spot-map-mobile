@@ -1,6 +1,6 @@
 package ru.spacestar.core.utils.adapter
 
-import kendy.math.BigDecimal
+import com.ionspin.kotlin.bignum.decimal.BigDecimal
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.descriptors.PrimitiveKind

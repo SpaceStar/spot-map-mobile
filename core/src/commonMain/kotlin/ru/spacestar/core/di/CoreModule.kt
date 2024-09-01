@@ -37,6 +37,8 @@ val coreModule = module {
         }
     }
     // TODO: remove logging from release build
+    // TODO: crashing by timeout
+    // TODO: crashing btw - FIX!!! NO CRASHES PLS
     single {
         HttpClient(CIO) {
             install(HttpCache)
