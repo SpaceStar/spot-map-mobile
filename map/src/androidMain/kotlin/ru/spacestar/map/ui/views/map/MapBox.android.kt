@@ -6,7 +6,6 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -26,7 +25,6 @@ import com.mapbox.common.MapboxOptions
 import com.mapbox.geojson.Point
 import com.mapbox.maps.MapboxMap
 import com.mapbox.maps.extension.compose.DisposableMapEffect
-import com.mapbox.maps.extension.compose.MapEffect
 import com.mapbox.maps.extension.compose.MapboxMap
 import com.mapbox.maps.extension.compose.animation.viewport.rememberMapViewportState
 import com.mapbox.maps.extension.compose.annotation.generated.CircleAnnotationGroup
@@ -60,14 +58,7 @@ actual val MapBox: Map
             spots: List<Spot>,
             onScroll: (Bounds, Double) -> Unit ->
         var isMapsInitialized by remember { mutableStateOf(false) }
-        val mapViewportState = rememberMapViewportState {
-//            setCameraOptions {
-//                center(Point.fromLngLat(24.9384, 60.1699))
-//                zoom(9.0)
-//                pitch(0.0)
-//                bearing(0.0)
-//            }
-        }
+        val mapViewportState = rememberMapViewportState()
 
         val cameraPermissionState = rememberMultiplePermissionsState(
             listOf(
@@ -76,8 +67,8 @@ actual val MapBox: Map
             )
         )
 
-        val mapboxMap: MutableState<MapboxMap?> = remember {
-            mutableStateOf(null)
+        val mapboxMap = remember {
+            mutableStateOf<MapboxMap?>(null)
         }
 
         LaunchedEffect(true) {
@@ -175,12 +166,13 @@ actual val MapBox: Map
                     style = { MapStyle(style = BuildConfig.mapboxStyleUrl) }
                 ) {
 
-                    MapEffect(true) { mapView ->
+                    DisposableMapEffect(true) { mapView ->
                         mapView.location.locationPuck = createDefault2DPuck(true)
                         mapView.location.enabled = true
                         mapView.location.showAccuracyRing = true
                         mapView.location.puckBearingEnabled = true
                         mapView.location.puckBearing = PuckBearing.HEADING
+                        onDispose { mapView.location.enabled = false }
                     }
 
                     DisposableMapEffect(true) {
