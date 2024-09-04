@@ -12,9 +12,8 @@ import ru.spacestar.map.model.api.SpotType
 internal class SpotRepository(
     private val client: HttpClient
 ) : BaseRepository() {
-    // TODO: handle too
-    suspend fun getSpotTypes(): List<SpotType> {
-        return client.get(SpotResource.Types()).body()
+    suspend fun getSpotTypes(): BaseResponse<List<SpotType>> {
+        return handleResponse { client.get(SpotResource.Types()).body() }
     }
 
     suspend fun getSpotMap(

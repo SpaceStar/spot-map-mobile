@@ -40,6 +40,7 @@ internal fun SpotTypes(
 
     BaseAppBarScreen(
         navController = navController,
+        bindViewModel = viewModel,
         title = stringResource(Res.string.select_category_button),
         isBackEnabled = isBackEnabled
     ) { paddingValues ->

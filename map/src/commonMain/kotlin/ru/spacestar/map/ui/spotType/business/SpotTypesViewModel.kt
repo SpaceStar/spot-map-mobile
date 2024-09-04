@@ -13,7 +13,7 @@ internal class SpotTypesViewModel(
 
     override val container = container(SpotTypesState.DEFAULT) {
         val selected = preferences.selectedSpotType.get()
-        val spotTypes = repository.getSpotTypes()
+        val spotTypes = request { repository.getSpotTypes() } ?: return@container
         reduce {
             state.copy(
                 isLoading = false,
