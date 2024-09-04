@@ -47,8 +47,8 @@ val coreModule = module {
         HttpClient(CIO) {
             install(HttpCache)
             install(HttpTimeout) {
-                connectTimeoutMillis = 1000
-                requestTimeoutMillis = 5000
+                connectTimeoutMillis = 10000
+                requestTimeoutMillis = HttpTimeout.INFINITE_TIMEOUT_MS
             }
             // TODO: think about
             install(HttpRequestRetry) {

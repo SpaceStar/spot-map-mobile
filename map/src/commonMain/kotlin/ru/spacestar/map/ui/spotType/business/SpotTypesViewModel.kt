@@ -29,7 +29,7 @@ internal class SpotTypesViewModel(
                 spotTypes = refreshSelected(state.spotTypes, id)
             )
         }
-        postSideEffect(BaseSideEffect.Back())
+        postSideEffect(BaseSideEffect.Back)
     }
 
     fun isSpotTypeSelected(): Boolean {

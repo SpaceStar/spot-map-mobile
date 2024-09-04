@@ -32,7 +32,7 @@ internal fun SpotMap(
     }
 
     val lifecycleOwner = LocalLifecycleOwner.current
-    LaunchedEffect(lifecycleOwner, state) {
+    LaunchedEffect(lifecycleOwner, state.spotType) {
         viewModel.trackingMap(lifecycleOwner.lifecycle, state.spotType)
     }
 
@@ -45,7 +45,8 @@ internal fun SpotMap(
     }
 
     BaseAppBarScreen(
-        navController = navController
+        navController = navController,
+        bindViewModel = viewModel
     ) { paddingValues ->
         Box(
             modifier = Modifier

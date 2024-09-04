@@ -5,10 +5,11 @@ import androidx.lifecycle.flowWithLifecycle
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.IO
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.channels.BufferOverflow
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.sample
 import kotlinx.coroutines.withContext
+import ru.spacestar.core.model.NetworkError
 import ru.spacestar.core.utils.preferences.ApplicationPreferences
 import ru.spacestar.core_ui.viewmodel.BaseSideEffect
 import ru.spacestar.core_ui.viewmodel.BaseViewModel
@@ -27,7 +28,10 @@ internal class SpotMapViewModel(
     private var cachedZoom: Double = NOT_CACHED
     private var refreshCache = false
 
-    private val currentBounds = MutableStateFlow<Bounds?>(null)
+    private val currentBounds = MutableSharedFlow<Bounds>(
+        replay = 1,
+        onBufferOverflow = BufferOverflow.DROP_OLDEST
+    )
 
     override val container = container(SpotMapState.DEFAULT)
 
@@ -55,19 +59,24 @@ internal class SpotMapViewModel(
     @OptIn(FlowPreview::class)
     suspend fun trackingMap(lifecycle: Lifecycle, spotType: Int?) {
         if (spotType == null) return
+        if (cachedSpots.firstOrNull()?.spotTypeId != spotType) {
+            cachedSpots.clear()
+            intent { reduce { state.copy(spots = emptyList()) } }
+        }
         withContext(Dispatchers.IO) {
             currentBounds
                 .flowWithLifecycle(lifecycle)
-                .filterNotNull()
                 .sample(500)
                 .collect {
-                    val newSpots = repository.getSpotMap(
-                        spotType = spotType,
-                        lat1 = it.n.toPlainString(),
-                        lon1 = it.w.toPlainString(),
-                        lat2 = it.s.toPlainString(),
-                        lon2 = it.e.toPlainString()
-                    )
+                    val newSpots = request {
+                        repository.getSpotMap(
+                            spotType = spotType,
+                            lat1 = it.n.toPlainString(),
+                            lon1 = it.w.toPlainString(),
+                            lat2 = it.s.toPlainString(),
+                            lon2 = it.e.toPlainString()
+                        )
+                    } ?: return@collect
                     if (refreshCache) {
                         refreshCache = false
                         cachedSpots.clear()
@@ -87,6 +96,10 @@ internal class SpotMapViewModel(
     fun showCategories() = intent {
         val route = mapApi.spotTypes()
         postSideEffect(BaseSideEffect.Navigate(route))
+    }
+
+    override suspend fun handleNetworkError(response: NetworkError): Boolean {
+        return false
     }
 
     companion object {
