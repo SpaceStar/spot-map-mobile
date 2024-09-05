@@ -36,6 +36,7 @@ kotlin {
     sourceSets {
         androidMain.dependencies {
             implementation(compose.preview)
+            implementation(libs.ktor.okhttp)
         }
         commonMain.dependencies {
             implementation(compose.runtime)
@@ -53,6 +54,9 @@ kotlin {
             api(libs.ktor.resources)
             implementation(libs.bundles.ktor.plugins)
             implementation(libs.logging.napier)
+        }
+        iosMain.dependencies {
+            implementation(libs.ktor.darwin)
         }
     }
 }

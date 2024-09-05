@@ -4,7 +4,6 @@ import SpotMap.core.BuildConfig
 import io.github.aakira.napier.DebugAntilog
 import io.github.aakira.napier.Napier
 import io.ktor.client.HttpClient
-import io.ktor.client.engine.cio.CIO
 import io.ktor.client.network.sockets.ConnectTimeoutException
 import io.ktor.client.plugins.HttpRequestRetry
 import io.ktor.client.plugins.HttpRequestTimeoutException
@@ -44,7 +43,7 @@ val coreModule = module {
     // TODO: crashing by timeout
     // TODO: crashing btw - FIX!!! NO CRASHES PLS
     single {
-        HttpClient(CIO) {
+        HttpClient {
             install(HttpCache)
             install(HttpTimeout) {
                 connectTimeoutMillis = 10000
