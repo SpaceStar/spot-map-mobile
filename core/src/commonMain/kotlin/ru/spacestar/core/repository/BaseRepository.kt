@@ -25,6 +25,9 @@ abstract class BaseRepository {
             return NetworkError(e)
         } catch (e: UnresolvedAddressException) {
             return NetworkError(e)
+        } catch (e: Throwable) {
+            e.printStackTrace()
+            return NetworkError(e)
         }
         return when {
             response.status.isSuccess() -> {

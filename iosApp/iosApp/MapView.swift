@@ -28,7 +28,7 @@ struct MapView: View {
 class MapViewController: MapMapViewController {
     func invoke(initialEvent: MapMapUpdateEvent, updateListener: Core_uiComposeUpdateListener<MapMapUpdateEvent>) -> UIViewController {
         let state = MapState(spots: initialEvent.spots, onScroll: initialEvent.onScroll)
-        let mapView = MapView(state: state)
+        let mapView = MapView(state: state).ignoresSafeArea()
         updateListener.listen { mapUpdateEvent in
             state.spots = mapUpdateEvent!.spots
             state.onScroll = mapUpdateEvent!.onScroll

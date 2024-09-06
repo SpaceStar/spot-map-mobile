@@ -1,7 +1,11 @@
 package ru.spacestar.map.ui.views.map
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.safeDrawing
+import androidx.compose.foundation.layout.tappableElement
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -157,10 +161,18 @@ actual val MapBox: Map
 
                 MapboxMap(
                     modifier = Modifier.weight(1f),
-                    compass = { Compass() },
-                    scaleBar = { ScaleBar() },
-                    attribution = { Attribution() },
-                    logo = { Logo() },
+                    compass = { Compass(
+                        modifier = Modifier.windowInsetsPadding(WindowInsets.tappableElement)
+                    ) },
+                    scaleBar = { ScaleBar(
+                        modifier = Modifier.windowInsetsPadding(WindowInsets.safeDrawing)
+                    ) },
+                    attribution = { Attribution(
+                        modifier = Modifier.windowInsetsPadding(WindowInsets.tappableElement)
+                    ) },
+                    logo = { Logo(
+                        modifier = Modifier.windowInsetsPadding(WindowInsets.tappableElement)
+                    ) },
                     mapViewportState = mapViewportState,
                     mapState = mapState,
                     style = { MapStyle(style = BuildConfig.mapboxStyleUrl) }
