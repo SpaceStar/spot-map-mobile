@@ -6,5 +6,7 @@ import org.koin.dsl.module
 
 actual val platformModule: @Composable () -> Module
     get() = {
-        module {}
+        module {
+            includes(platformIosModule)
+        }
     }

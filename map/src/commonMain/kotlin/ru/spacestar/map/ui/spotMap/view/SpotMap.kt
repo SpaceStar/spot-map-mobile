@@ -54,7 +54,7 @@ internal fun SpotMap(
                 .padding(paddingValues)
         ) {
             MapBox(
-                modifier = Modifier,
+                modifier = Modifier.fillMaxSize(),
                 spots = state.spots,
                 onScroll = { bounds, z ->
                     viewModel.getSpots(bounds, z)

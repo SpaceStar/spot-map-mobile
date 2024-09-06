@@ -52,8 +52,8 @@ kotlin {
             api(libs.kotlin.datetime)
             api(libs.ktor.core)
             api(libs.ktor.resources)
+            api(libs.logging.napier)
             implementation(libs.bundles.ktor.plugins)
-            implementation(libs.logging.napier)
         }
         iosMain.dependencies {
             implementation(libs.ktor.darwin)
