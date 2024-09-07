@@ -71,10 +71,10 @@ internal class SpotMapViewModel(
                     val newSpots = request {
                         repository.getSpotMap(
                             spotType = spotType,
-                            lat1 = it.n.toPlainString(),
-                            lon1 = it.w.toPlainString(),
-                            lat2 = it.s.toPlainString(),
-                            lon2 = it.e.toPlainString()
+                            lat1 = it.n,
+                            lon1 = it.w,
+                            lat2 = it.s,
+                            lon2 = it.e
                         )
                     } ?: return@collect
                     if (refreshCache) {

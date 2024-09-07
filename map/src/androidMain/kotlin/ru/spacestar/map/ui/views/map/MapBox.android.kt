@@ -6,9 +6,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.tappableElement
 import androidx.compose.foundation.layout.windowInsetsPadding
-import androidx.compose.material3.Button
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -22,8 +19,6 @@ import androidx.lifecycle.flowWithLifecycle
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.isGranted
 import com.google.accompanist.permissions.rememberMultiplePermissionsState
-import com.google.accompanist.permissions.rememberPermissionState
-import com.google.accompanist.permissions.shouldShowRationale
 import com.ionspin.kotlin.bignum.decimal.BigDecimal
 import com.mapbox.common.MapboxOptions
 import com.mapbox.geojson.Point
@@ -150,10 +145,10 @@ actual val MapBox: Map
                                     rawE
                             }
                             val bounds = Bounds(
-                                n = n,
-                                e = e,
-                                s = s,
-                                w = w
+                                n = n.toPlainString(),
+                                e = e.toPlainString(),
+                                s = s.toPlainString(),
+                                w = w.toPlainString()
                             )
                             onScroll(bounds, zoom)
                         }
@@ -254,35 +249,3 @@ actual val MapBox: Map
             }
         }
     }
-
-@OptIn(ExperimentalPermissionsApi::class)
-@Composable
-private fun FeatureThatRequiresCameraPermission() {
-
-    // Camera permission state
-    val cameraPermissionState = rememberPermissionState(
-        android.Manifest.permission.ACCESS_COARSE_LOCATION
-    )
-
-    if (cameraPermissionState.status.isGranted) {
-        Text("Camera permission Granted")
-    } else {
-        Column {
-            val textToShow = if (cameraPermissionState.status.shouldShowRationale) {
-                // If the user has denied the permission but the rationale can be shown,
-                // then gently explain why the app requires this permission
-                "The camera is important for this app. Please grant the permission."
-            } else {
-                // If it's the first time the user lands on this feature, or the user
-                // doesn't want to be asked again for this permission, explain that the
-                // permission is required
-                "Camera permission required for this feature to be available. " +
-                        "Please grant the permission"
-            }
-            Text(textToShow)
-            Button(onClick = { cameraPermissionState.launchPermissionRequest() }) {
-                Text("Request permission")
-            }
-        }
-    }
-}
