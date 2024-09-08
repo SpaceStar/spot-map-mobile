@@ -47,6 +47,14 @@ struct MapView: View {
                         .circleColor(UIColor.red)
                 }
             }.mapStyle(MapStyle(uri: StyleURI(rawValue: styleUri)!))
+                .ornamentOptions(
+                    OrnamentOptions(
+                        scaleBar: ScaleBarViewOptions(),
+                        compass: CompassViewOptions(),
+                        logo: LogoViewOptions(),
+                        attributionButton: AttributionButtonOptions()
+                    )
+                )
                 .onCameraChanged { cameraChanged in
                     let camera = CameraOptions(cameraState: cameraChanged.cameraState)
                     if let mapUnwrapped = map {
@@ -88,6 +96,8 @@ struct MapView: View {
                 }
                 .onAppear {
                     map = proxy.map
+//                     let configuration = Puck2DConfiguration.makeDefault(showBearing: true)
+//                     proxy.location?.options.puckType = .puck2D(configuration)
                 }
         }
     }
