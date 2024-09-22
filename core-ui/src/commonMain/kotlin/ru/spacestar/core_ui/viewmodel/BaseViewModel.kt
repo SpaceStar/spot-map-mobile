@@ -10,15 +10,18 @@ import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.retry
 import org.orbitmvi.orbit.ContainerHost
 import org.orbitmvi.orbit.SettingsBuilder
 import org.orbitmvi.orbit.container
 import org.orbitmvi.orbit.syntax.Syntax
-import ru.spacestar.core.model.BaseResponse
-import ru.spacestar.core.model.NetworkError
-import ru.spacestar.core.model.Response
+import ru.spacestar.core.exception.NetworkException
+import ru.spacestar.core.exception.ServerException
 import ru.spacestar.core.model.ServerError
 
 abstract class BaseViewModel<S : Any, SF : Any> : ViewModel(), ContainerHost<S, BaseSideEffect<SF>> {
@@ -89,9 +92,9 @@ abstract class BaseViewModel<S : Any, SF : Any> : ViewModel(), ContainerHost<S, 
     /**
      * returns Boolean indicating if caller should retry the request
      */
-    protected open suspend fun handleNetworkError(response: NetworkError): Boolean {
+    protected open suspend fun handleNetworkError(e: Throwable): Boolean {
         if (retryEnabled) {
-            errorFlow.emit(ErrorSideEffect.NetworkErrorSF(response.e))
+            errorFlow.emit(ErrorSideEffect.NetworkErrorSF(e))
             return retryFlow.first()
         }
         return false
@@ -104,31 +107,26 @@ abstract class BaseViewModel<S : Any, SF : Any> : ViewModel(), ContainerHost<S, 
     /**
      * returns Boolean indicating if caller should retry the request
      */
-    private suspend fun <T : Any> handleError(response: BaseResponse<T>): Boolean {
-        return when (response) {
-            is NetworkError -> handleNetworkError(response)
-            is ServerError -> {
-                handleServerError(response)
+    private suspend fun handleError(error: Throwable): Boolean {
+        return when (error) {
+            is NetworkException -> handleNetworkError(error.cause)
+            is ServerException -> {
+                handleServerError(error.serverError)
                 false
             }
-            is Response -> false
+            else -> throw error
         }
     }
 
-    protected suspend fun <T : Any> request(request: suspend () -> BaseResponse<T>): T? {
-        var retry = true
-        while (retry) {
-            val response = request()
-            retry = handleError(response)
-            if (retry)
-                continue
-            return if (response is Response)
-                response.data
-            else
-                null
+    protected suspend fun <T> Flow<T>.handleError() = this
+        .retry { handleError(it) }
+        .catch {}
+
+    protected fun <T, R> Flow<T>.requestFlow(request: (T) -> Flow<R>): Flow<R> = flow {
+        collect { param ->
+            request(param)
+                .handleError()
+                .collect { emit(it) }
         }
-        throw IllegalStateException()
     }
-
-
 }

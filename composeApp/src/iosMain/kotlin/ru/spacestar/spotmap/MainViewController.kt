@@ -7,7 +7,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.window.ComposeUIViewController
 import org.koin.dsl.module
-import ru.spacestar.map.ui.views.map.MapViewController
+import ru.spacestar.map.presentation.ui.views.map.MapViewController
 import ru.spacestar.spotmap.di.platformIosModule
 
 fun MainViewController(

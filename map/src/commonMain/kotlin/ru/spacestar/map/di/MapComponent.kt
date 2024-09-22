@@ -6,8 +6,8 @@ import androidx.navigation.NavController
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.get
 import org.koin.core.component.inject
-import ru.spacestar.map.ui.spotMap.view.SpotMap as SpotMapInternal
-import ru.spacestar.map.ui.spotType.view.SpotTypes as SpotTypesInternal
+import ru.spacestar.map.presentation.ui.spotMap.SpotMap as SpotMapInternal
+import ru.spacestar.map.presentation.ui.spotType.SpotTypes as SpotTypesInternal
 
 internal class MapComponent : KoinComponent {
     private val navController: NavController by inject()
